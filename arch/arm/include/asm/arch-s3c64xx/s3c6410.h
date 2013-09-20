@@ -1,0 +1,517 @@
+/*
+ * (C) Copyright 2007
+ * Byungjae Lee, Samsung Erectronics, bjlee@samsung.com.
+ *      - only support for S3C6400
+ *
+ * (C) Copyright 2008
+ * Guennadi Liakhovetki, DENX Software Engineering, <lg@denx.de>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston,
+ * MA 02111-1307 USA
+ */
+
+/************************************************
+ * NAME	    : s3c6400.h
+ *
+ * Based on S3C6400 User's manual Rev 0.0
+ ************************************************/
+
+#ifndef __S3C6400_H__
+#define __S3C6400_H__
+
+#define S3C64XX_UART_CHANNELS	3
+#define S3C64XX_SPI_CHANNELS	2
+
+#include <asm/hardware.h>
+
+/* Clock & Power Controller for mDirac3*/
+#define APLL_LOCK_OFFSET	0x00
+#define MPLL_LOCK_OFFSET	0x04
+#define EPLL_LOCK_OFFSET	0x08
+#define APLL_CON_OFFSET		0x0C
+#define MPLL_CON_OFFSET		0x10
+#define EPLL_CON0_OFFSET	0x14
+#define EPLL_CON1_OFFSET	0x18
+#define CLK_SRC_OFFSET		0x1C
+#define CLK_DIV0_OFFSET		0x20
+#define CLK_DIV1_OFFSET		0x24
+#define CLK_DIV2_OFFSET		0x28
+#define CLK_OUT_OFFSET		0x2C
+#define HCLK_GATE_OFFSET	0x30
+#define PCLK_GATE_OFFSET	0x34
+#define SCLK_GATE_OFFSET	0x38
+#define AHB_CON0_OFFSET		0x100
+#define AHB_CON1_OFFSET		0x104
+#define AHB_CON2_OFFSET		0x108
+#define SELECT_DMA_OFFSET	0x110
+#define SW_RST_OFFSET		0x114
+#define SYS_ID_OFFSET		0x118
+#define MEM_SYS_CFG_OFFSET	0x120
+#define QOS_OVERRIDE0_OFFSET	0x124
+#define QOS_OVERRIDE1_OFFSET	0x128
+#define MEM_CFG_STAT_OFFSET	0x12C
+#define PWR_CFG_OFFSET		0x804
+#define EINT_MASK_OFFSET	0x808
+#define NOR_CFG_OFFSET		0x810
+#define STOP_CFG_OFFSET		0x814
+#define SLEEP_CFG_OFFSET	0x818
+#define OSC_FREQ_OFFSET		0x820
+#define OSC_STABLE_OFFSET	0x824
+#define PWR_STABLE_OFFSET	0x828
+#define FPC_STABLE_OFFSET	0x82C
+#define MTC_STABLE_OFFSET	0x830
+#define OTHERS_OFFSET		0x900
+#define RST_STAT_OFFSET		0x904
+#define WAKEUP_STAT_OFFSET	0x908
+#define BLK_PWR_STAT_OFFSET	0x90C
+#define INF_REG0_OFFSET		0xA00
+#define INF_REG1_OFFSET		0xA04
+#define INF_REG2_OFFSET		0xA08
+#define INF_REG3_OFFSET		0xA0C
+#define INF_REG4_OFFSET		0xA10
+#define INF_REG5_OFFSET		0xA14
+#define INF_REG6_OFFSET		0xA18
+#define INF_REG7_OFFSET		0xA1C
+
+#define OSC_CNT_VAL_OFFSET	0x824
+#define PWR_CNT_VAL_OFFSET	0x828
+#define FPC_CNT_VAL_OFFSET	0x82C
+#define MTC_CNT_VAL_OFFSET	0x830
+
+#define APLL_LOCK_REG		__REG(S3C64XX_SYS_BASE + APLL_LOCK_OFFSET)
+#define MPLL_LOCK_REG		__REG(S3C64XX_SYS_BASE + MPLL_LOCK_OFFSET)
+#define EPLL_LOCK_REG		__REG(S3C64XX_SYS_BASE + EPLL_LOCK_OFFSET)
+#define APLL_CON_REG		__REG(S3C64XX_SYS_BASE + APLL_CON_OFFSET)
+#define MPLL_CON_REG		__REG(S3C64XX_SYS_BASE + MPLL_CON_OFFSET)
+#define EPLL_CON0_REG		__REG(S3C64XX_SYS_BASE + EPLL_CON0_OFFSET)
+#define EPLL_CON1_REG		__REG(S3C64XX_SYS_BASE + EPLL_CON1_OFFSET)
+#define CLK_SRC_REG		__REG(S3C64XX_SYS_BASE + CLK_SRC_OFFSET)
+#define CLK_DIV0_REG		__REG(S3C64XX_SYS_BASE + CLK_DIV0_OFFSET)
+#define CLK_DIV1_REG		__REG(S3C64XX_SYS_BASE + CLK_DIV1_OFFSET)
+#define CLK_DIV2_REG		__REG(S3C64XX_SYS_BASE + CLK_DIV2_OFFSET)
+#define CLK_OUT_REG		__REG(S3C64XX_SYS_BASE + CLK_OUT_OFFSET)
+#define HCLK_GATE_REG		__REG(S3C64XX_SYS_BASE + HCLK_GATE_OFFSET)
+#define PCLK_GATE_REG		__REG(S3C64XX_SYS_BASE + PCLK_GATE_OFFSET)
+#define SCLK_GATE_REG		__REG(S3C64XX_SYS_BASE + SCLK_GATE_OFFSET)
+#define AHB_CON0_REG		__REG(S3C64XX_SYS_BASE + AHB_CON0_OFFSET)
+#define AHB_CON1_REG		__REG(S3C64XX_SYS_BASE + AHB_CON1_OFFSET)
+#define AHB_CON2_REG		__REG(S3C64XX_SYS_BASE + AHB_CON2_OFFSET)
+#define SELECT_DMA_REG		__REG(S3C64XX_SYS_BASE + \
+				      SELECT_DMA_OFFSET)
+#define SW_RST_REG		__REG(S3C64XX_SYS_BASE + SW_RST_OFFSET)
+#define SYS_ID_REG		__REG(S3C64XX_SYS_BASE + SYS_ID_OFFSET)
+#define MEM_SYS_CFG_REG		__REG(S3C64XX_SYS_BASE + \
+				      MEM_SYS_CFG_OFFSET)
+#define QOS_OVERRIDE0_REG	__REG(S3C64XX_SYS_BASE + \
+				      QOS_OVERRIDE0_OFFSET)
+#define QOS_OVERRIDE1_REG	__REG(S3C64XX_SYS_BASE + \
+				      QOS_OVERRIDE1_OFFSET)
+#define MEM_CFG_STAT_REG	__REG(S3C64XX_SYS_BASE + \
+				      MEM_CFG_STAT_OFFSET)
+#define PWR_CFG_REG		__REG(S3C64XX_SYS_BASE + PWR_CFG_OFFSET)
+#define EINT_MASK_REG		__REG(S3C64XX_SYS_BASE + EINT_MASK_OFFSET)
+#define NOR_CFG_REG		__REG(S3C64XX_SYS_BASE + NOR_CFG_OFFSET)
+#define STOP_CFG_REG		__REG(S3C64XX_SYS_BASE + STOP_CFG_OFFSET)
+#define SLEEP_CFG_REG		__REG(S3C64XX_SYS_BASE + SLEEP_CFG_OFFSET)
+#define OSC_FREQ_REG		__REG(S3C64XX_SYS_BASE + OSC_FREQ_OFFSET)
+#define OSC_CNT_VAL_REG		__REG(S3C64XX_SYS_BASE + \
+				      OSC_CNT_VAL_OFFSET)
+#define PWR_CNT_VAL_REG		__REG(S3C64XX_SYS_BASE + \
+				      PWR_CNT_VAL_OFFSET)
+#define FPC_CNT_VAL_REG		__REG(S3C64XX_SYS_BASE + \
+				      FPC_CNT_VAL_OFFSET)
+#define MTC_CNT_VAL_REG		__REG(S3C64XX_SYS_BASE + \
+				      MTC_CNT_VAL_OFFSET)
+#define OTHERS_REG		__REG(S3C64XX_SYS_BASE + OTHERS_OFFSET)
+#define RST_STAT_REG		__REG(S3C64XX_SYS_BASE + RST_STAT_OFFSET)
+#define WAKEUP_STAT_REG		__REG(S3C64XX_SYS_BASE + \
+				      WAKEUP_STAT_OFFSET)
+#define BLK_PWR_STAT_REG	__REG(S3C64XX_SYS_BASE + \
+				      BLK_PWR_STAT_OFFSET)
+#define INF_REG0_REG		__REG(S3C64XX_SYS_BASE + INF_REG0_OFFSET)
+#define INF_REG1_REG		__REG(S3C64XX_SYS_BASE + INF_REG1_OFFSET)
+#define INF_REG2_REG		__REG(S3C64XX_SYS_BASE + INF_REG2_OFFSET)
+#define INF_REG3_REG		__REG(S3C64XX_SYS_BASE + INF_REG3_OFFSET)
+#define INF_REG4_REG		__REG(S3C64XX_SYS_BASE + INF_REG4_OFFSET)
+#define INF_REG5_REG		__REG(S3C64XX_SYS_BASE + INF_REG5_OFFSET)
+#define INF_REG6_REG		__REG(S3C64XX_SYS_BASE + INF_REG6_OFFSET)
+#define INF_REG7_REG		__REG(S3C64XX_SYS_BASE + INF_REG7_OFFSET)
+
+#define APLL_LOCK	(S3C64XX_SYS_BASE + APLL_LOCK_OFFSET)
+#define MPLL_LOCK	(S3C64XX_SYS_BASE + MPLL_LOCK_OFFSET)
+#define EPLL_LOCK	(S3C64XX_SYS_BASE + EPLL_LOCK_OFFSET)
+#define APLL_CON	(S3C64XX_SYS_BASE + APLL_CON_OFFSET)
+#define MPLL_CON	(S3C64XX_SYS_BASE + MPLL_CON_OFFSET)
+#define EPLL_CON0	(S3C64XX_SYS_BASE + EPLL_CON0_OFFSET)
+#define EPLL_CON1	(S3C64XX_SYS_BASE + EPLL_CON1_OFFSET)
+#define CLK_SRC		(S3C64XX_SYS_BASE + CLK_SRC_OFFSET)
+#define CLK_DIV0	(S3C64XX_SYS_BASE + CLK_DIV0_OFFSET)
+#define CLK_DIV1	(S3C64XX_SYS_BASE + CLK_DIV1_OFFSET)
+#define CLK_DIV2	(S3C64XX_SYS_BASE + CLK_DIV2_OFFSET)
+#define CLK_OUT		(S3C64XX_SYS_BASE + CLK_OUT_OFFSET)
+#define HCLK_GATE	(S3C64XX_SYS_BASE + HCLK_GATE_OFFSET)
+#define PCLK_GATE	(S3C64XX_SYS_BASE + PCLK_GATE_OFFSET)
+#define SCLK_GATE	(S3C64XX_SYS_BASE + SCLK_GATE_OFFSET)
+#define AHB_CON0	(S3C64XX_SYS_BASE + AHB_CON0_OFFSET)
+#define AHB_CON1	(S3C64XX_SYS_BASE + AHB_CON1_OFFSET)
+#define AHB_CON2	(S3C64XX_SYS_BASE + AHB_CON2_OFFSET)
+#define SELECT_DMA	(S3C64XX_SYS_BASE + SELECT_DMA_OFFSET)
+#define SW_RST		(S3C64XX_SYS_BASE + SW_RST_OFFSET)
+#define SYS_ID		(S3C64XX_SYS_BASE + SYS_ID_OFFSET)
+#define MEM_SYS_CFG	(S3C64XX_SYS_BASE + MEM_SYS_CFG_OFFSET)
+#define QOS_OVERRIDE0	(S3C64XX_SYS_BASE + QOS_OVERRIDE0_OFFSET)
+#define QOS_OVERRIDE1	(S3C64XX_SYS_BASE + QOS_OVERRIDE1_OFFSET)
+#define MEM_CFG_STAT	(S3C64XX_SYS_BASE + MEM_CFG_STAT_OFFSET)
+#define PWR_CFG		(S3C64XX_SYS_BASE + PWR_CFG_OFFSET)
+#define EINT_MASK	(S3C64XX_SYS_BASE + EINT_MASK_OFFSET)
+#define NOR_CFG		(S3C64XX_SYS_BASE + NOR_CFG_OFFSET)
+#define STOP_CFG	(S3C64XX_SYS_BASE + STOP_CFG_OFFSET)
+#define SLEEP_CFG	(S3C64XX_SYS_BASE + SLEEP_CFG_OFFSET)
+#define OSC_FREQ	(S3C64XX_SYS_BASE + OSC_FREQ_OFFSET)
+#define OSC_CNT_VAL	(S3C64XX_SYS_BASE + OSC_CNT_VAL_OFFSET)
+#define PWR_CNT_VAL	(S3C64XX_SYS_BASE + PWR_CNT_VAL_OFFSET)
+#define FPC_CNT_VAL	(S3C64XX_SYS_BASE + FPC_CNT_VAL_OFFSET)
+#define MTC_CNT_VAL	(S3C64XX_SYS_BASE + MTC_CNT_VAL_OFFSET)
+#define OTHERS		(S3C64XX_SYS_BASE + OTHERS_OFFSET)
+#define RST_STAT	(S3C64XX_SYS_BASE + RST_STAT_OFFSET)
+#define WAKEUP_STAT	(S3C64XX_SYS_BASE + WAKEUP_STAT_OFFSET)
+#define BLK_PWR_STAT	(S3C64XX_SYS_BASE + BLK_PWR_STAT_OFFSET)
+#define INF_REG0	(S3C64XX_SYS_BASE + INF_REG0_OFFSET)
+#define INF_REG1	(S3C64XX_SYS_BASE + INF_REG1_OFFSET)
+#define INF_REG2	(S3C64XX_SYS_BASE + INF_REG2_OFFSET)
+#define INF_REG3	(S3C64XX_SYS_BASE + INF_REG3_OFFSET)
+#define INF_REG4	(S3C64XX_SYS_BASE + INF_REG4_OFFSET)
+#define INF_REG5	(S3C64XX_SYS_BASE + INF_REG5_OFFSET)
+#define INF_REG6	(S3C64XX_SYS_BASE + INF_REG6_OFFSET)
+#define INF_REG7	(S3C64XX_SYS_BASE + INF_REG7_OFFSET)
+
+/*
+ * Bus Matrix
+ */
+#define S3C64XX_MEM_SYS_CFG	0x7e00f120
+
+#define S3C64XX_MEM_SYS_CFG_16BIT	(1 << 12)
+
+#define S3C64XX_MEM_SYS_CFG_NAND	0x0008
+#define S3C64XX_MEM_SYS_CFG_ONENAND	S3C64XX_MEM_SYS_CFG_16BIT
+
+/*
+ * Memory controller
+ */
+#define S3C64XX_SROM_BASE		0x70000000
+
+#define SROM_BW_REG	__REG(S3C64XX_SROM_BASE + 0x0)
+#define SROM_BC0_REG	__REG(S3C64XX_SROM_BASE + 0x4)
+#define SROM_BC1_REG	__REG(S3C64XX_SROM_BASE + 0x8)
+#define SROM_BC2_REG	__REG(S3C64XX_SROM_BASE + 0xC)
+#define SROM_BC3_REG	__REG(S3C64XX_SROM_BASE + 0x10)
+#define SROM_BC4_REG	__REG(S3C64XX_SROM_BASE + 0x14)
+#define SROM_BC5_REG	__REG(S3C64XX_SROM_BASE + 0x18)
+
+/*
+ * SDRAM Controller
+ */
+#define S3C64XX_DMC0_BASE		0x7e000000
+#define S3C64XX_DMC1_BASE		0x7e001000
+
+#define INDEX_DMC_MEMC_STATUS	0x00
+#define INDEX_DMC_MEMC_CMD	0x04
+#define INDEX_DMC_DIRECT_CMD	0x08
+#define INDEX_DMC_MEMORY_CFG	0x0C
+#define INDEX_DMC_REFRESH_PRD	0x10
+#define INDEX_DMC_CAS_LATENCY	0x14
+#define INDEX_DMC_T_DQSS	0x18
+#define INDEX_DMC_T_MRD		0x1C
+#define INDEX_DMC_T_RAS		0x20
+#define INDEX_DMC_T_RC		0x24
+#define INDEX_DMC_T_RCD		0x28
+#define INDEX_DMC_T_RFC		0x2C
+#define INDEX_DMC_T_RP		0x30
+#define INDEX_DMC_T_RRD		0x34
+#define INDEX_DMC_T_WR		0x38
+#define INDEX_DMC_T_WTR		0x3C
+#define INDEX_DMC_T_XP		0x40
+#define INDEX_DMC_T_XSR		0x44
+#define INDEX_DMC_T_ESR		0x48
+#define INDEX_DMC_MEMORY_CFG2	0x4C
+#define INDEX_DMC_CHIP_0_CFG	0x200
+#define INDEX_DMC_CHIP_1_CFG	0x204
+#define INDEX_DMC_CHIP_2_CFG	0x208
+#define INDEX_DMC_CHIP_3_CFG	0x20C
+#define INDEX_DMC_USER_STATUS	0x300
+#define INDEX_DMC_USER_CONFIG	0x304
+
+/*
+ * Memory Chip direct command
+ */
+#define DMC_NOP0	0x0c0000
+#define DMC_NOP1	0x1c0000
+#define DMC_PA0		0x000000	/* Precharge all */
+#define DMC_PA1		0x100000
+#define DMC_AR0		0x040000	/* Autorefresh */
+#define DMC_AR1		0x140000
+#define DMC_SDR_MR0	0x080032	/* MRS, CAS 3,  Burst Length 4 */
+#define DMC_SDR_MR1	0x180032
+#define DMC_DDR_MR0	0x080162
+#define DMC_DDR_MR1	0x180162
+#define DMC_mDDR_MR0	0x080032	/* CAS 3, Burst Length 4 */
+#define DMC_mDDR_MR1	0x180032
+#define DMC_mSDR_EMR0	0x0a0000	/* EMRS, DS:Full, PASR:Full Array */
+#define DMC_mSDR_EMR1	0x1a0000
+#define DMC_DDR_EMR0	0x090000
+#define DMC_DDR_EMR1	0x190000
+#define DMC_mDDR_EMR0	0x0a0000	/*  DS:Full, PASR:Full Array */
+#define DMC_mDDR_EMR1	0x1a0000
+
+/*
+ * Definitions for memory configuration
+ * Set memory configuration
+ *	active_chips	= 1'b0 (1 chip)
+ *	qos_master_chip	= 3'b000(ARID[3:0])
+ *	memory burst	= 3'b010(burst 4)
+ *	stop_mem_clock	= 1'b0(disable dynamical stop)
+ *	auto_power_down	= 1'b0(disable auto power-down mode)
+ *	power_down_prd	= 6'b00_0000(0 cycle for auto power-down)
+ *	ap_bit		= 1'b0 (bit position of auto-precharge is 10)
+ *	row_bits	= 3'b010(# row address 13)
+ *	column_bits	= 3'b010(# column address 10 )
+ *
+ * Set user configuration
+ *	2'b10=SDRAM/mSDRAM, 2'b11=DDR, 2'b01=mDDR
+ *
+ * Set chip select for chip [n]
+ *	 row bank control, bank address 0x3000_0000 ~ 0x37ff_ffff
+ *	 CHIP_[n]_CFG=0x30F8,  30: ADDR[31:24], F8: Mask[31:24]
+ */
+
+/*
+ * Nand flash controller
+ */
+#define S3C64XX_NAND_BASE		0x70200000
+
+#define NFCONF_OFFSET		0x00
+#define NFCONT_OFFSET		0x04
+#define NFCMMD_OFFSET		0x08
+#define NFADDR_OFFSET		0x0c
+#define NFDATA_OFFSET		0x10
+#define NFMECCDATA0_OFFSET	0x14
+#define NFMECCDATA1_OFFSET	0x18
+#define NFSECCDATA0_OFFSET	0x1c
+#define NFSBLK_OFFSET		0x20
+#define NFEBLK_OFFSET		0x24
+#define NFSTAT_OFFSET		0x28
+#define NFESTAT0_OFFSET		0x2c
+#define NFESTAT1_OFFSET		0x30
+#define NFMECC0_OFFSET		0x34
+#define NFMECC1_OFFSET		0x38
+#define NFSECC_OFFSET		0x3c
+#define NFMLCBITPT_OFFSET	0x40
+
+#define NFCONF			(S3C64XX_NAND_BASE + NFCONF_OFFSET)
+#define NFCONT			(S3C64XX_NAND_BASE + NFCONT_OFFSET)
+#define NFCMMD			(S3C64XX_NAND_BASE + NFCMMD_OFFSET)
+#define NFADDR			(S3C64XX_NAND_BASE + NFADDR_OFFSET)
+#define NFDATA			(S3C64XX_NAND_BASE + NFDATA_OFFSET)
+#define NFMECCDATA0		(S3C64XX_NAND_BASE + NFMECCDATA0_OFFSET)
+#define NFMECCDATA1		(S3C64XX_NAND_BASE + NFMECCDATA1_OFFSET)
+#define NFSECCDATA0		(S3C64XX_NAND_BASE + NFSECCDATA0_OFFSET)
+#define NFSBLK			(S3C64XX_NAND_BASE + NFSBLK_OFFSET)
+#define NFEBLK			(S3C64XX_NAND_BASE + NFEBLK_OFFSET)
+#define NFSTAT			(S3C64XX_NAND_BASE + NFSTAT_OFFSET)
+#define NFESTAT0		(S3C64XX_NAND_BASE + NFESTAT0_OFFSET)
+#define NFESTAT1		(S3C64XX_NAND_BASE + NFESTAT1_OFFSET)
+#define NFMECC0			(S3C64XX_NAND_BASE + NFMECC0_OFFSET)
+#define NFMECC1			(S3C64XX_NAND_BASE + NFMECC1_OFFSET)
+#define NFSECC			(S3C64XX_NAND_BASE + NFSECC_OFFSET)
+#define NFMLCBITPT		(S3C64XX_NAND_BASE + NFMLCBITPT_OFFSET)
+
+#define NFCONF_REG		__REG(S3C64XX_NAND_BASE + NFCONF_OFFSET)
+#define NFCONT_REG		__REG(S3C64XX_NAND_BASE + NFCONT_OFFSET)
+#define NFCMD_REG		__REG(S3C64XX_NAND_BASE + NFCMMD_OFFSET)
+#define NFADDR_REG		__REG(S3C64XX_NAND_BASE + NFADDR_OFFSET)
+#define NFDATA_REG		__REG(S3C64XX_NAND_BASE + NFDATA_OFFSET)
+#define NFDATA8_REG		__REGb(S3C64XX_NAND_BASE + NFDATA_OFFSET)
+#define NFMECCDATA0_REG		__REG(S3C64XX_NAND_BASE + NFMECCDATA0_OFFSET)
+#define NFMECCDATA1_REG		__REG(S3C64XX_NAND_BASE + NFMECCDATA1_OFFSET)
+#define NFSECCDATA0_REG		__REG(S3C64XX_NAND_BASE + NFSECCDATA0_OFFSET)
+#define NFSBLK_REG		__REG(S3C64XX_NAND_BASE + NFSBLK_OFFSET)
+#define NFEBLK_REG		__REG(S3C64XX_NAND_BASE + NFEBLK_OFFSET)
+#define NFSTAT_REG		__REG(S3C64XX_NAND_BASE + NFSTAT_OFFSET)
+#define NFESTAT0_REG		__REG(S3C64XX_NAND_BASE + NFESTAT0_OFFSET)
+#define NFESTAT1_REG		__REG(S3C64XX_NAND_BASE + NFESTAT1_OFFSET)
+#define NFMECC0_REG		__REG(S3C64XX_NAND_BASE + NFMECC0_OFFSET)
+#define NFMECC1_REG		__REG(S3C64XX_NAND_BASE + NFMECC1_OFFSET)
+#define NFSECC_REG		__REG(S3C64XX_NAND_BASE + NFSECC_OFFSET)
+#define NFMLCBITPT_REG		__REG(S3C64XX_NAND_BASE + NFMLCBITPT_OFFSET)
+
+#define NFCONF_ECC_4BIT		(1<<24)
+
+#define NFCONT_ECC_ENC		(1<<18)
+#define NFCONT_WP		(1<<16)
+#define NFCONT_MECCLOCK		(1<<7)
+#define NFCONT_SECCLOCK		(1<<6)
+#define NFCONT_INITMECC		(1<<5)
+#define NFCONT_INITSECC		(1<<4)
+#define NFCONT_INITECC		(NFCONT_INITMECC | NFCONT_INITSECC)
+#define NFCONT_CS_ALT		(1<<2)
+#define NFCONT_CS		(1<<1)
+#define NFCONT_ENABLE		(1<<0)
+
+#define NFSTAT_ECCENCDONE	(1<<7)
+#define NFSTAT_ECCDECDONE	(1<<6)
+#define NFSTAT_RnB		(1<<0)
+
+#define NFESTAT0_ECCBUSY	(1<<31)
+
+/*
+ * Interrupt
+ */
+#define S3C64XX_VIC0_BASE_ADDR	0x71200000
+#define S3C64XX_VIC1_BASE_ADDR	0x71300000
+#define oINTMOD			0x0C	/* VIC INT SELECT (IRQ or FIQ) */
+#define oINTUNMSK		0x10	/* VIC INT EN (write 1 to unmask) */
+#define oINTMSK			0x14	/* VIC INT EN CLEAR (write 1 to mask) */
+#define oINTSUBMSK		0x1C	/* VIC SOFT INT CLEAR */
+#define oVECTADDR		0xF00 /* VIC ADDRESS */
+
+/*
+ * UART
+ */
+
+#define S3C64XX_UART0_OFFSET	0x0000
+#define S3C64XX_UART1_OFFSET	0x0400
+#define S3C64XX_UART2_OFFSET	0x0800
+
+#define UTRSTAT_TX_EMPTY	(1 << 2)
+#define UTRSTAT_RX_READY	(1 << 0)
+#define UART_ERR_MASK		0xF
+
+
+#if defined(CONFIG_CLK_400_100_50)
+#define STARTUP_AMDIV		400
+#define STARTUP_MDIV		400
+#define STARTUP_PDIV		6
+#define STARTUP_SDIV		1
+#elif defined(CONFIG_CLK_400_133_66)
+#define STARTUP_AMDIV		400
+#define STARTUP_MDIV		533
+#define STARTUP_PDIV		6
+#define STARTUP_SDIV		1
+#elif defined(CONFIG_CLK_533_133_66)
+#define STARTUP_AMDIV		533
+#define STARTUP_MDIV		533
+#define STARTUP_PDIV		6
+#define STARTUP_SDIV		1
+#elif defined(CONFIG_CLK_667_133_66)
+#define STARTUP_AMDIV		667
+#define STARTUP_MDIV		533
+#define STARTUP_PDIV		6
+#define STARTUP_SDIV		1
+#endif
+
+#define	STARTUP_PCLKDIV		3
+#define STARTUP_HCLKX2DIV	1
+#define STARTUP_HCLKDIV		1
+#define STARTUP_MPLLDIV		1
+#define STARTUP_APLLDIV		0
+
+#define CLK_DIV_VAL	((STARTUP_PCLKDIV << 12) | (STARTUP_HCLKX2DIV << 9) | \
+	(STARTUP_HCLKDIV << 8) | (STARTUP_MPLLDIV<<4) | STARTUP_APLLDIV)
+#define MPLL_VAL	((1 << 31) | (STARTUP_MDIV << 16) | \
+	(STARTUP_PDIV << 8) | STARTUP_SDIV)
+#define STARTUP_MPLL	(((CONFIG_SYS_CLK_FREQ >> STARTUP_SDIV) / \
+	STARTUP_PDIV) * STARTUP_MDIV)
+
+#if defined(CONFIG_SYNC_MODE)
+#define APLL_VAL	((1 << 31) | (STARTUP_MDIV << 16) | \
+	(STARTUP_PDIV << 8) | STARTUP_SDIV)
+#define STARTUP_APLL	(((CONFIG_SYS_CLK_FREQ >> STARTUP_SDIV) / \
+	STARTUP_PDIV) * STARTUP_MDIV)
+#define STARTUP_HCLK	(STARTUP_MPLL / (STARTUP_HCLKX2DIV + 1) / \
+	(STARTUP_HCLKDIV + 1))
+#else
+#define APLL_VAL	((1 << 31) | (STARTUP_AMDIV << 16) | \
+	(STARTUP_PDIV << 8) | STARTUP_SDIV)
+#define STARTUP_APLL	(((CONFIG_SYS_CLK_FREQ >> STARTUP_SDIV) / \
+	STARTUP_PDIV) * STARTUP_AMDIV)
+#define STARTUP_HCLK	(STARTUP_MPLL / (STARTUP_HCLKX2DIV + 1) / \
+	(STARTUP_HCLKDIV + 1))
+#endif
+
+
+/*-----------------------------------------------------------------------
+ * Physical Memory Map
+ */
+#define DMC1_MEM_CFG	0x00010012	/* burst 4, 13-bit row, 10-bit col */
+#define DMC1_MEM_CFG2	0xB45
+#define DMC1_CHIP0_CFG	0x150F8		/* 0x5000_0000~0x57ff_ffff (128 MiB) */
+#define DMC_DDR_32_CFG	0x0 		/* 32bit, DDR */
+
+/* Memory Parameters */
+/* DDR Parameters */
+#define DDR_tREFRESH		7800	/* ns */
+#define DDR_tRAS		45	/* ns (min: 45ns)*/
+#define DDR_tRC 		68	/* ns (min: 67.5ns)*/
+#define DDR_tRCD		23	/* ns (min: 22.5ns)*/
+#define DDR_tRFC		80	/* ns (min: 80ns)*/
+#define DDR_tRP 		23	/* ns (min: 22.5ns)*/
+#define DDR_tRRD		15	/* ns (min: 15ns)*/
+#define DDR_tWR 		15	/* ns (min: 15ns)*/
+#define DDR_tXSR		120	/* ns (min: 120ns)*/
+#define DDR_CASL		3	/* CAS Latency 3 */
+
+/*
+ * mDDR memory configuration
+ */
+
+#define NS_TO_CLK(t)		((STARTUP_HCLK / 1000 * (t) - 1) / 1000000)
+
+#define DMC_DDR_BA_EMRS 	2
+#define DMC_DDR_MEM_CASLAT	3
+/* 6   Set Cas Latency to 3 */
+#define DMC_DDR_CAS_LATENCY	(DDR_CASL << 1)
+/* Min 0.75 ~ 1.25 */
+#define DMC_DDR_t_DQSS		1
+/* Min 2 tck */
+#define DMC_DDR_t_MRD		2
+/* 7, Min 45ns */
+#define DMC_DDR_t_RAS		(NS_TO_CLK(DDR_tRAS) + 1)
+/* 10, Min 67.5ns */
+#define DMC_DDR_t_RC		(NS_TO_CLK(DDR_tRC) + 1)
+/* 4,5(TRM), Min 22.5ns */
+#define DMC_DDR_t_RCD		(NS_TO_CLK(DDR_tRCD) + 1)
+#define DMC_DDR_schedule_RCD	((DMC_DDR_t_RCD - 3) << 3)
+/* 11,18(TRM) Min 80ns */
+#define DMC_DDR_t_RFC		(NS_TO_CLK(DDR_tRFC) + 1)
+#define DMC_DDR_schedule_RFC	((DMC_DDR_t_RFC - 3) << 5)
+/* 4, 5(TRM) Min 22.5ns */
+#define DMC_DDR_t_RP		(NS_TO_CLK(DDR_tRP) + 1)
+#define DMC_DDR_schedule_RP	((DMC_DDR_t_RP - 3) << 3)
+/* 3, Min 15ns */
+#define DMC_DDR_t_RRD		(NS_TO_CLK(DDR_tRRD) + 1)
+/* Min 15ns */
+#define DMC_DDR_t_WR		(NS_TO_CLK(DDR_tWR) + 1)
+#define DMC_DDR_t_WTR		2
+/* 1tck + tIS(1.5ns) */
+#define DMC_DDR_t_XP		2
+/* 17, Min 120ns */
+#define DMC_DDR_t_XSR		(NS_TO_CLK(DDR_tXSR) + 1)
+#define DMC_DDR_t_ESR		DMC_DDR_t_XSR
+/* TRM 2656 */
+#define DMC_DDR_REFRESH_PRD	(NS_TO_CLK(DDR_tREFRESH))
+/* 2b01 : mDDR */
+#define DMC_DDR_USER_CONFIG	1
+
+#endif /*__S3C6400_H__*/
